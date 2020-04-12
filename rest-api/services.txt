@@ -1,0 +1,25 @@
+-login
+(front end)logout: remove variables cookies
+
+
+
+-view all email per user filters(ALL,INBOX,SPAM,SENT)
+-INBOX(ham)  /emailID
+-SPAM        /emailID
+-SENT        /emailID
+-ALL = spam+sent+inbox         /emailID
+
+--sendemail-add email
+--delete email
+--spam checker general functionality(predict)
+--change password(update user)
+
+
+
+--crud user[admin]
+--view all emails [admin]
+
+--predict
+
+
+

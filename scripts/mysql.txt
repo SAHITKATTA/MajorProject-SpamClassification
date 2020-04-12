@@ -1,0 +1,218 @@
+sanjaykatta@Sahits-MacBook-Pro ~ % /usr/local/mysql/bin/mysql -uroot -p
+zsh: no such file or directory: /usr/local/mysql/bin/mysql
+sanjaykatta@Sahits-MacBook-Pro ~ % mysql -u root -p
+zsh: command not found: mysql
+sanjaykatta@Sahits-MacBook-Pro ~ % sudo apt-get update
+Password:
+Sorry, try again.
+Password:
+sudo: apt-get: command not found
+sanjaykatta@Sahits-MacBook-Pro ~ % mysql
+zsh: command not found: mysql
+sanjaykatta@Sahits-MacBook-Pro ~ % /usr/local/mysql/bin/mysql -u root -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.19 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+4 rows in set (0.01 sec)
+
+mysql> create database major_project;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use major_project
+Database changed
+mysql> create table user (email varchar(100),password varchar(100))
+    -> ;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> drop table user;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table user (email varchar(100) primary key,password varchar(100))
+    -> ;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> desc user;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| email    | varchar(100) | NO   | PRI | NULL    |       |
+| password | varchar(100) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table email (eid int primary_key auto_increment,subject vachar(100),body varchar(500), from varchar(100), to varchar(100) ,is_spam int,  FOREIGN KEY (from) REFERENCES user(email), FOREIGN KEY (to) REFERENCES user(email));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'primary_key auto_increment,subject vachar(100),body varchar(500), from varchar(1' at line 1
+mysql> create table email (eid int not null auto_increment,subject vachar(100),body varchar(500), from varchar(100), to varchar(100) ,is_spam int,  FOREIGN KEY (from) REFERENCES user(email), FOREIGN KEY (to) REFERENCES user(email));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'vachar(100),body varchar(500), from varchar(100), to varchar(100) ,is_spam int, ' at line 1
+mysql> create table email (eid int not null auto_increment,subject varchar(100),body varchar(500), from varchar(100), to varchar(100) ,is_spam int,  FOREIGN KEY (from) REFERENCES user(email), FOREIGN KEY (to) REFERENCES user(email));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from varchar(100), to varchar(100) ,is_spam int,  FOREIGN KEY (from) REFERENCES ' at line 1
+mysql> create table email (eid int not null auto_increment,subject varchar(100),body varchar(500), from varchar(100), to varchar(100) ,is_spam int,  FOREIGN KEY (from) REFERENCES user(email), FOREIGN KEY (to) REFERENCES user(email))
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from varchar(100), to varchar(100) ,is_spam int,  FOREIGN KEY (from) REFERENCES ' at line 1
+mysql> create table email (eid int not null auto_increment,subject varchar(100),body varchar(500), sender varchar(100), receiver varchar(100) ,is_spam int,  FOREIGN KEY (sender) REFERENCES user(email), FOREIGN KEY (receiver) REFERENCES user(email));
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> create table email (eid int not null auto_increment,subject varchar(100),body varchar(500), sender varchar(100), receiver varchar(100) ,is_spam int,  FOREIGN KEY (sender) REFERENCES user(email), FOREIGN KEY (receiver) REFERENCES user(email));
+ERROR 1075 (42000): Incorrect table definition; there can be only one auto column and it must be defined as a key
+mysql> mysql> create table email (eid int not null auto_increment,subject varchar(100),body varchar(500), sender varchar(100), receiver varchar(100) ,is_spam int,  FOREIGN KEY (sender) REFERENCES user(email), FOREIGN KEY (receiver) REFERENCES user(emrimary key eid);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table email (eid int not null auto_increment,subject varchar(100),body varchar(500), sender varchar(100), receiver varchar(100) ,is_spam int,  FOREIGN KEY (sender) REFERENCES user(email), FOREIGN KEY (receiver) REFERENCES user(email), primary key(eid));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc email
+    -> ;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| eid      | int          | NO   | PRI | NULL    | auto_increment |
+| subject  | varchar(100) | YES  |     | NULL    |                |
+| body     | varchar(500) | YES  |     | NULL    |                |
+| sender   | varchar(100) | YES  | MUL | NULL    |                |
+| receiver | varchar(100) | YES  | MUL | NULL    |                |
+| is_spam  | int          | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+6 rows in set (0.00 sec)
+
+mysql> insert into user ('admin','admin');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''admin','admin')' at line 1
+mysql> insert into user values('admin','admin');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from user;
++-------+----------+
+| email | password |
++-------+----------+
+| admin | admin    |
++-------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from user;
++-------+----------+
+| email | password |
++-------+----------+
+| admin | admin    |
++-------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from user;
++-------+----------+
+| email | password |
++-------+----------+
+| admin | admin    |
++-------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from user;
++-----------------------+----------+
+| email                 | password |
++-----------------------+----------+
+| admin                 | admin    |
+| sahit.mohan@gmail.com | sahit    |
++-----------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from user;
++-----------------------+----------+
+| email                 | password |
++-----------------------+----------+
+| admin                 | admin    |
+| harsha@gmail.com      | harsha   |
+| sahit.mohan@gmail.com | sahit    |
++-----------------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from user;
++-----------------------+----------+
+| email                 | password |
++-----------------------+----------+
+| admin                 | admin    |
+| harsha@gmail.com      | harsha   |
+| laasya@gmail.com      | laasya   |
+| sahit.mohan@gmail.com | sahit    |
++-----------------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from user;
++-----------------------+----------+
+| email                 | password |
++-----------------------+----------+
+| admin                 | admin    |
+| harsha@gmail.com      | harsha   |
+| laasya@gmail.com      | laasya   |
+| sahit.mohan@gmail.com | sahit    |
++-----------------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from user;
++-----------------------+----------+
+| email                 | password |
++-----------------------+----------+
+| admin                 | admin    |
+| harsha@gmail.com      | harsha   |
+| laasya@gmail.com      | laasya   |
+| sahit.mohan@gmail.com | sahit    |
+| test                  | test1    |
++-----------------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from user;
++-----------------------+----------+
+| email                 | password |
++-----------------------+----------+
+| admin                 | admin    |
+| harsha@gmail.com      | harsha   |
+| laasya@gmail.com      | laasya   |
+| sahit.mohan@gmail.com | sahit    |
++-----------------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from email;
+Empty set (0.00 sec)
+
+mysql> insert into email values(0,'test','test','admin','admin',1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from email;
++-----+---------+------+--------+----------+---------+
+| eid | subject | body | sender | receiver | is_spam |
++-----+---------+------+--------+----------+---------+
+|   1 | test    | test | admin  | admin    |       1 |
++-----+---------+------+--------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from email;
++-----+---------+------+--------+----------+---------+
+| eid | subject | body | sender | receiver | is_spam |
++-----+---------+------+--------+----------+---------+
+|   1 | test    | test | admin  | admin    |       1 |
++-----+---------+------+--------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> select * from email;
++-----+---------+------+--------+----------+---------+
+| eid | subject | body | sender | receiver | is_spam |
++-----+---------+------+--------+----------+---------+
+|   1 | test    | test | admin  | admin    |       1 |
++-----+---------+------+--------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql>
